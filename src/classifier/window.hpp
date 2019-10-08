@@ -6,7 +6,9 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPixmap>
 #include <QPushButton>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -24,16 +26,20 @@ private:
     QHBoxLayout split_layout;
 
     // left side of the window
-    QWidget form_widget;
+    QWidget form_section;
     QFormLayout form_layout;
     QComboBox letter_color_select;
     QComboBox letter_orientation_select;
     QLineEdit letter_entry;
 
+    QWidget image_section;
+    QVBoxLayout image_layout;
+    QPixmap loaded_image;
     QLabel image_label;
+    QTextEdit metadata_view;
 
 public:
-    Window(QWidget *parent = nullptr);
+    explicit Window(QWidget *parent = nullptr);
 
 };
 

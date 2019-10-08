@@ -1,10 +1,29 @@
+#include <QFileDialog>
+
 #include <classifier/filepath_button.hpp>
 
 FilepathButton::FilepathButton() :
+    fpath_label("Some file path"),
     open_dialog_button("...")
 {
+    // the user can't edit the filepath field
+    fpath_label.setEnabled(false);
+
     this->setLayout(&this->layout);
     this->open_dialog_button.setSizePolicy(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
     this->layout.addWidget(&this->fpath_label);
     this->layout.addWidget(&this->open_dialog_button);
+
+    this->dialog.setFileMode(QFileDialog::FileMode::DirectoryOnly);
+    connect(&this->open_dialog_button, &QPushButton::pressed, this, &FilepathButton::buttonPressed);
+    connect(&this->dialog, &QFileDialog::fileSelected, this, &FilepathButton::fileSelected);
+}
+
+void FilepathButton::buttonPressed() {
+    this->dialog.show();
+}
+
+void FilepathButton::fileSelected(const QString& fpath) {
+    fpath_label.setText(fpath);
+    emit this->pathChanged(fpath);
 }
