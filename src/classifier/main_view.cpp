@@ -1,6 +1,6 @@
-#include <classifier/window.hpp>
+#include <classifier/main_view.hpp>
 
-Window::Window(QWidget *parent) {
+MainView::MainView(QWidget *parent) {
     this->setLayout(&this->central_layout);
     this->central_layout.addWidget(&this->fpath_button);
 

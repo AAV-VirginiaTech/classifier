@@ -15,7 +15,7 @@ find_package(Qt5 COMPONENTS Widgets Core Test REQUIRED)
 # don't include header or template files
 set(src_files
     src/classifier/main.cpp
-    src/classifier/window.cpp
+    src/classifier/main_view.cpp
     src/classifier/filepath_button.cpp
 )
 

@@ -14,7 +14,7 @@
 
 #include <classifier/filepath_button.hpp>
 
-class Window : public QWidget {
+class MainView: public QWidget {
 private:
     QVBoxLayout central_layout;
 
@@ -39,7 +39,7 @@ private:
     QTextEdit metadata_view;
 
 public:
-    explicit Window(QWidget *parent = nullptr);
+    explicit MainView(QWidget *parent = nullptr);
 
 };
 
