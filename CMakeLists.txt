@@ -6,10 +6,14 @@ project(classifier CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if (WIN32)
+	set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.5\\msvc2017_64")
+endif()
+
 # configure Qt
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt5 COMPONENTS Widgets Core Test REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 
 # list any cpp files here
 # don't include header or template files

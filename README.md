@@ -50,4 +50,6 @@ files it needs.
 
 1. When installing Visual Studio, be sure to install the C++ development kit, which includes CMake support.
 2. Cloning the repository from Visual Studio automatically configures the CMake project
-3. Make sure that the environment variable `Qt5_DIR` in the CMake Settings page is set to `C:/Qt/5.12.5/msvc2017_64/lib/cmake/Qt5`
+3. Add the two following directories to your `Path` variable under `This PC > Properties > Advanced system settings > Environment Variables`
+  - `C:\Qt\5.12.5\msvc2017_64\plugins\platforms`
+  - `C:\Qt\5.12.5\msvc2017_64\bin`
