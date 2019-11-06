@@ -36,7 +36,16 @@ private:
     QVBoxLayout image_layout;
     QPixmap loaded_image;
     QLabel image_label;
+    QPushButton next_image_button;
     QTextEdit metadata_view;
+
+    QStringList displayed_images;
+
+    void displayNextImage(const QString& dir_path);
+
+private slots:
+    void newImageDirSelected(QString dir_path);
+    void nextImageButtonPressed();
 
 public:
     explicit MainView(QWidget *parent = nullptr);
