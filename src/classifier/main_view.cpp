@@ -51,7 +51,7 @@ MainView::MainView(QWidget *parent) :
  **/
 void MainView::displayNextImage(const QString& dir_path) {
     QDir image_dir(dir_path);
-    QStringList name_filters { "*.png" };
+    QStringList name_filters { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp" };
     image_dir.setNameFilters(name_filters);
 
     QStringList images = image_dir.entryList();
