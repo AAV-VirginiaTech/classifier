@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QPixmap>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -32,9 +33,11 @@ private:
     QComboBox letter_orientation_select;
     QLineEdit letter_entry;
 
+    // right side of the window
     QWidget image_section;
     QVBoxLayout image_layout;
     QPixmap loaded_image;
+    QScrollArea image_scroller;
     QLabel image_label;
     QPushButton next_image_button;
     QTextEdit metadata_view;

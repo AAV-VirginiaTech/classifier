@@ -31,9 +31,14 @@ MainView::MainView(QWidget *parent) :
     // everything below here is the right half of the window
     this->split_layout.addWidget(&this->image_section);
     this->image_section.setLayout(&this->image_layout);
-    this->image_layout.addWidget(&this->image_label);
+    this->image_layout.addWidget(&this->image_scroller);
     this->image_layout.addWidget(&this->next_image_button);
     this->image_layout.addWidget(&this->metadata_view);
+
+    // place the image inside the scrollable area
+    this->image_label.setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    this->image_label.setScaledContents(true);
+    this->image_scroller.setWidget(&this->image_label);
 
     // load the stub image
     this->newImageDirSelected(this->fpath_button.getCurrentPath());
@@ -61,10 +66,13 @@ void MainView::displayNextImage(const QString& dir_path) {
             std::cerr << full_path.toStdString() << std::endl;
 
             this->loaded_image.load(full_path);
+            auto viewport = this->image_scroller.viewport();
+            QSize area(viewport->width(), viewport->height());
             this->loaded_image = this->loaded_image.scaled(
-                QSize(400, 400), Qt::AspectRatioMode::KeepAspectRatioByExpanding
+                area, Qt::AspectRatioMode::KeepAspectRatio
             );
             this->image_label.setPixmap(loaded_image);
+            this->image_label.adjustSize();
 
             // track that we've displayed this image, stop searching for something to find
             this->displayed_images.append(image_fname);
