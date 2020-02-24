@@ -100,7 +100,7 @@ Window {
         anchors.top: topbarSeparator.bottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        width: 15 * style.em
+        width: 18 * style.em
 
         color: "#333333"
 
@@ -111,34 +111,65 @@ Window {
             anchors.right: parent.right
             anchors.margins: this.spacing
 
+            property var colorModel: ["White", "Black", "Gray", "Red", "Blue", "Green", "Yellow", "Purple", "Brown", "Orange"]
+            property var orientationModel: ["North", "North East", "North West", "South", "South East", "South West", "East", "West"]
+            property var shapeModel: ["Circle", "Semi Circle", "Quarter Circle", "Triangle", "Square", "Rectangle",
+                                        "Trapezoid", "Pentagon", "Hexagon", "Heptagon", "Octagon", "Star", "Cross"]
+
             FormRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
                 text: "Letter Color"
-                model: ["Orange", "Blue", "Red", "Green"]
+                model: parent.colorModel
             }
 
             FormRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
-                text: "Letter Direction"
-                model: ["North", "South", "East", "West"]
+                text: "Target Color"
+                model: parent.colorModel
             }
 
             FormRow {
-                Layout.fillHeight: true
+                Layout.fillWidth: true
+                height: style.clickableHeight
+
+                text: "Letter Orientation"
+                model: parent.orientationModel
+            }
+
+            FormRow {
+                Layout.fillWidth: true
+                height: style.clickableHeight
+
+                text: "Shape"
+                model: parent.shapeModel
+            }
+
+            TextFieldRow {
+                Layout.fillWidth: true
                 height: style.clickableHeight
 
                 text: "Letter"
+                inputMask: "a"
+            }
 
-                Style.RoundTextField {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.horizontalCenter
-                    anchors.leftMargin: style.formCenterMargin
-                    anchors.right: parent.right
-                }
+            TextFieldRow {
+                Layout.fillWidth: true
+                height: style.clickableHeight
+
+                text: "Latitude"
+                inputMask: "0000.0000"
+            }
+
+            TextFieldRow {
+                Layout.fillWidth: true
+                height: style.clickableHeight
+
+                text: "Longitude"
+                inputMask: "0000.0000"
             }
         }
     }
