@@ -7,6 +7,6 @@ Controls.RoundButton {
     }
 
     height: style.clickableHeight
-    radius: style.cornerRadius
+//    radius: style.cornerRadius
     text: undefined
 }

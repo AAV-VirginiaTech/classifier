@@ -30,7 +30,7 @@ Item {
             text: root.text
             color: root.color
         }
-        Style.RoundTextField {
+        Style.TextField {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.horizontalCenter
             anchors.leftMargin: style.formCenterMargin

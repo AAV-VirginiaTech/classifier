@@ -8,9 +8,9 @@ Controls.ComboBox {
 
     height: style.clickableHeight
 
-    background: Rectangle {
-        anchors.fill: parent
-        anchors.margins: 0
-        radius: style.cornerRadius
-    }
+//    background: Rectangle {
+//        anchors.fill: parent
+//        anchors.margins: 0
+//        radius: style.cornerRadius
+//    }
 }

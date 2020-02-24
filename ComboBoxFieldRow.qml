@@ -34,7 +34,7 @@ Item {
             id: fieldContainer
             anchors.fill: parent
 
-            property Item field: Style.RoundComboBox {
+            property Item field: Style.ComboBox {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.horizontalCenter
                 anchors.leftMargin: style.formCenterMargin

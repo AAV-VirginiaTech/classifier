@@ -1,16 +1,17 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>style/RoundButton.qml</file>
-        <file>style/RoundComboBox.qml</file>
-        <file>FormRow.qml</file>
+        <file>style/Button.qml</file>
+        <file>style/ComboBox.qml</file>
+        <file>ComboBoxFieldRow.qml</file>
         <file>style/Style.qml</file>
-        <file>style/RoundTextField.qml</file>
+        <file>style/TextField.qml</file>
         <file>example-images/bluelandscape.png</file>
         <file>example-images/blueportrait.png</file>
         <file>example-images/bluesquare.png</file>
         <file>example-images/triangle.png</file>
         <file>main.cpp</file>
         <file>TextFieldRow.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

@@ -1,8 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.3
+import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.12
 import QtQuick.Window 2.12
-import QtQuick.Dialogs 1.2
 import Qt.labs.folderlistmodel 2.12
 import "style" as Style
 
@@ -12,6 +13,9 @@ Window {
     width: 640
     height: 480
     title: qsTr("Image Classifier")
+
+    Material.theme: Material.Dark
+    Material.accent: Material.DeepOrange
 
     FolderListModel {
         id: folderModel
@@ -37,7 +41,8 @@ Window {
         anchors.right: parent.right
 
         height: style.toolbarHeight
-        color: "#333333"
+        Material.background: Material.BlueGrey
+//        color: "#333333"
 
         Rectangle {
             id: filepathRegion
@@ -46,7 +51,7 @@ Window {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 2 / 3
 
-            color: "transparent"
+//            color: "transparent"
 
             Text {
                 id: filepathText
@@ -54,9 +59,9 @@ Window {
                 anchors.left: parent.left
 
                 text: folderModel.folder
-                color: "white"
+//                color: "white"
             }
-            Style.RoundButton {
+            Style.Button {
                 id: filepathButton
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
@@ -91,8 +96,6 @@ Window {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 1 / Screen.devicePixelRatio
-
-        color: "white"
     }
 
     Rectangle {
@@ -102,7 +105,7 @@ Window {
         anchors.bottom: parent.bottom
         width: 18 * style.em
 
-        color: "#333333"
+//        color: "#333333"
 
         ColumnLayout {
             id: formLayout
@@ -116,7 +119,7 @@ Window {
             property var shapeModel: ["Circle", "Semi Circle", "Quarter Circle", "Triangle", "Square", "Rectangle",
                                         "Trapezoid", "Pentagon", "Hexagon", "Heptagon", "Octagon", "Star", "Cross"]
 
-            FormRow {
+            ComboBoxFieldRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
@@ -124,7 +127,7 @@ Window {
                 model: parent.colorModel
             }
 
-            FormRow {
+            ComboBoxFieldRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
@@ -132,7 +135,7 @@ Window {
                 model: parent.colorModel
             }
 
-            FormRow {
+            ComboBoxFieldRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
@@ -140,7 +143,7 @@ Window {
                 model: parent.orientationModel
             }
 
-            FormRow {
+            ComboBoxFieldRow {
                 Layout.fillWidth: true
                 height: style.clickableHeight
 
@@ -197,7 +200,7 @@ Window {
                 id: imageContainer
                 anchors.fill: parent
 
-                color: "black"
+//                color: "black"
 
                 Image {
                     id: imageView
@@ -245,9 +248,9 @@ Window {
             anchors.bottom: parent.bottom
             height: style.toolbarHeight
 
-            color: "black"
+//            color: "black"
 
-            Style.RoundButton {
+            Style.Button {
                 id: nextImageButton
 
                 anchors.left: parent.left
@@ -266,10 +269,10 @@ Window {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 text: imageRegion.zoomPercentage + "%"
-                color: "white"
+//                color: "white"
             }
 
-            Style.RoundButton {
+            Style.Button {
                 id: resetZoomButton
 
                 anchors.right: parent.right
