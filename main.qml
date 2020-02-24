@@ -7,6 +7,7 @@ import Qt.labs.folderlistmodel 2.12
 import "style" as Style
 
 Window {
+    id: window
     visible: true
     width: 640
     height: 480
@@ -14,6 +15,15 @@ Window {
 
     FolderListModel {
         id: folderModel
+
+        nameFilters: [ "*.png", "*.PNG", "*.jpg", "*.JPG" ]
+
+        property int curIndex: 0
+    }
+
+    function displayImage(url) {
+        imageView.source = url;
+        imageRegion.zoomPercentage = 100;
     }
 
     Style.Style {
@@ -64,7 +74,12 @@ Window {
                 selectMultiple: false
                 selectFolder: true
                 onAccepted: {
-                    folderModel.folder = fileDialog.fileUrl
+                    folderModel.folder = fileDialog.fileUrl;
+                    folderModel.curIndex = 0;
+                    if (folderModel.curIndex < folderModel.count) {
+                        var image_path = folderModel.get(folderModel.curIndex, "fileURL");
+                        window.displayImage(image_path);
+                    }
                 }
             }
         }
@@ -136,8 +151,6 @@ Window {
         anchors.bottom: parent.bottom
 
         property real zoomPercentage: 100
-        property real translateX: 0
-        property real translateY: 0
 
         Flickable {
             id: scrollRegion
@@ -159,13 +172,13 @@ Window {
                     id: imageView
                     width: parent.width
                     height: parent.height
-//                    anchors.fill: parent
 
                     scale: imageRegion.zoomPercentage / 100
 
                     fillMode: Image.PreserveAspectFit
 
-                    source: "qrc:/example-images/triangle.png"
+//                    source: "qrc:/example-images/triangle.png"
+//                    source: folderModel.get(folderModel.curIndex, "fileURL")
                 }
 
                 MouseArea {
@@ -183,8 +196,13 @@ Window {
 
                     drag.target: imageView
                     drag.axis: Drag.XAndYAxis
-//                    drag.minimumX: 0
-//                    drag.maximumX: imageContainer.width - imageView.width
+
+                    property real scaledWidth: imageView.width * imageRegion.zoomPercentage / 100;
+                    property real scaledHeight: imageView.height * imageRegion.zoomPercentage / 100;
+                    drag.minimumX: -scaledWidth + style.em
+                    drag.maximumX: scaledWidth - style.em
+                    drag.minimumY: -scaledHeight + style.em
+                    drag.maximumY: scaledHeight - style.em
                 }
             }
         }
@@ -197,6 +215,20 @@ Window {
             height: style.toolbarHeight
 
             color: "black"
+
+            Style.RoundButton {
+                id: nextImageButton
+
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.margins: 5
+
+                text: "Next Image"
+                onClicked: {
+                    folderModel.curIndex += 1;
+                    window.displayImage(folderModel.get(folderModel.curIndex, "fileURL"));
+                }
+            }
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
