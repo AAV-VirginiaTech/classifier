@@ -1,6 +1,7 @@
 build
 py-tf/data
 py-tf/samples
+py-tf/*.zip
 .vscode
 .pytest_cache
 __pycache__
