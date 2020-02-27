@@ -17,7 +17,7 @@ You will need a few packages to run these. It is easiest to install them from An
 
 ## Installation
 
-1. Download Anaconda and install <https://www.anaconda.com/>
+1. Download and install Anaconda (<https://www.anaconda.com/>)
 
 2. Open a terminal, and navigate so `conda` is in your PATH or working directory. Make a new environment with all the dependencies (or add them to an existing environment with `conda activate <env>` and `conda install`)
 
