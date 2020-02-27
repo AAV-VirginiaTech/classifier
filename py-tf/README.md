@@ -69,13 +69,14 @@ and this will create a new metadata file (or overwrite the old one) at `./sample
 To create a dataset, use the `create_sample_images.py` file. (Note: you can probably find a dataset of `data.zip` under _AAV Team Drive > 2019 - 2020 | Season 3 > Software | S3 > Classification Data_.)
 
 ```
-python create_sample_images.py [-v] [-val <%>] [-e <%>] [-p] [-x <width>] [-y <height>] [-o <dir>] [-i <dir>] N
+python create_sample_images.py [-n <cores>] [-v] [-val <%>] [-e <%>] [-p] [-x <width>] [-y <height>] [-o <dir>] [-i <dir>] N
 ```
 
 Required parameters:
 - `N`: Number of total image/mask pairs to generate
 
 Optional parameters:
+- `-n`: Number of processes to use. Default is 1 (single-threaded).
 - `-v`: Enable verbose logging
 - `-val <%>`: Percent of total generated images to be made into a validation set. Default is 10.0.
 - `-e <%>`: Percent of total images that should be empty (i.e. don't have a target present). Default is 50.0.

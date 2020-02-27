@@ -17,9 +17,11 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 def get_args(args=None):
     """
     Parses the command line args according to
-    $ python create_sample_images.py [-v] [-val <%>] [-e <%>] [-p] [-x <width>] [-y <height>] [-o <dir>] [-i <dir>] N
+    $ python create_sample_images.py [-n <cores>] [-v] [-val <%>] [-e <%>] [-p] [-x <width>] [-y <height>] [-o <dir>] [-i <dir>] N
     """
     parser = argparse.ArgumentParser(description='Generates training/validation data')
+    parser.add_argument("-n", action="store", type=int, default=1,
+                        help="Number of processes to use")
     parser.add_argument('-v', action="store_true",
                         help="Enable verbose logging")
     parser.add_argument('-val', action='store', type=float, default=10.0,
@@ -60,7 +62,7 @@ def prepare_directories(out_dir, in_dir, delete_if_exists=True):
 
     # Clear output directory if it exists, mostly to prevent keeping old samples
     if data_dir.exists():
-        shutil.rmtree(data_dir)
+        shutil.rmtree(data_dir, ignore_errors=True)
     
     in_dirs = {
         "top": in_dir_path,
@@ -80,7 +82,10 @@ def prepare_directories(out_dir, in_dir, delete_if_exists=True):
 
     # Make output directories
     for folder in out_dirs.values():
-        folder.mkdir(parents=True)
+        try:
+            folder.mkdir(parents=True)
+        except OSError:
+            pass
     
     return (in_dirs, out_dirs)
 
@@ -145,8 +150,8 @@ def randomCropGenerator(n, img, mask, width, height, x0, y0):
         else:
             rx = randint(0, img.shape[1] - width - 1)
             ry = randint(0, img.shape[0] - height - 1)
-            new_img = img[rx:rx+width, ry:ry+height]
-            new_mask = mask[rx:rx+width, ry:ry+height]
+            new_img = img[ry:ry+height, rx:rx+width]
+            new_mask = mask[ry:ry+height, rx:rx+width]
 
             yield (new_img, new_mask)
 
@@ -179,6 +184,8 @@ def randomCropBatch(param, idx, target):
         # Save validation image
         if random() < param['val']:
             n_validation += 1
+            if param["verbose"]:
+                print(f"Img: ({crop_img.shape[1]} x {crop_img.shape[0]}), Mask: ({crop_mask.shape[1]} x {crop_mask.shape[0]})")
             cv2.imwrite(str(param["out_dir"]["val_samples"] / f"{label}.png"), crop_img)
             cv2.imwrite(str(param["out_dir"]["val_masks"] / f"{label}.png"), crop_mask)
         # Save training image
@@ -200,6 +207,8 @@ def randomCropBatch(param, idx, target):
                 crop_img = np.squeeze(crop_img)
                 crop_mask = np.squeeze(crop_mask)
 
+            if param["verbose"]:
+                print(f"Img: ({crop_img.shape[1]} x {crop_img.shape[0]}), Mask: ({crop_mask.shape[1]} x {crop_mask.shape[0]})")
             cv2.imwrite(str(param["out_dir"]["train_samples"] / f"{label}.png"), crop_img)
             cv2.imwrite(str(param["out_dir"]["train_masks"] / f"{label}.png"), crop_mask)
         
@@ -215,9 +224,12 @@ def execute(param):
     Main function that does everything for each set of parameters
     """
     # do images with target
-    randomCropBatch(param, param["idx"], target=True)
+    if param["ntarget"] > 0:
+        randomCropBatch(param, param["idx"], target=True)
+    
     # do images without target
-    randomCropBatch(param, param["idx"] + param["ntarget"], target=False)
+    if param["N"] - param["ntarget"] > 0:
+        randomCropBatch(param, param["idx"] + param["ntarget"], target=False)
 
 
 def _compute(N, e, n, m, k):
@@ -309,5 +321,13 @@ if __name__ == "__main__":
 
         params.append(param)
 
-    p = Pool(4)
-    res = p.map(execute, params)
+    
+    # Single threaded mapping
+    if args.n <= 1:
+        print(f"Using 1 process..")
+        res = map(execute, params)
+    # Multi-core fun
+    else:
+        print(f"Using {args.n} processes..")
+        p = Pool(args.n)
+        res = p.map(execute, params)
